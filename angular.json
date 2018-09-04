@@ -116,6 +116,46 @@
           }
         }
       }
+    },
+    "@notadd/ngx-xlsx": {
+      "root": "projects/notadd/ngx-xlsx",
+      "sourceRoot": "projects/notadd/ngx-xlsx/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/notadd/ngx-xlsx/tsconfig.lib.json",
+            "project": "projects/notadd/ngx-xlsx/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/notadd/ngx-xlsx/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/notadd/ngx-xlsx/src/test.ts",
+            "tsConfig": "projects/notadd/ngx-xlsx/tsconfig.spec.json",
+            "karmaConfig": "projects/notadd/ngx-xlsx/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/notadd/ngx-xlsx/tsconfig.lib.json",
+              "projects/notadd/ngx-xlsx/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-xlsx"

@@ -1,0 +1,28 @@
+{
+  "name": "@notadd/ngx-xlsx",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "xlsx": "^0.13.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notadd/ngx-xlsx.git"
+  },
+  "keywords": [
+    "angular2",
+    "angular4",
+    "angular5",
+    "angular6",
+    "excel",
+    "export excel",
+    "angular xlsx",
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/notadd/ngx-xlsx/issues"
+  },
+  "homepage": "https://github.com/notadd/ngx-xlsx#readme"
+}

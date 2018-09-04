@@ -15,6 +15,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@notadd/ngx-xlsx": [
+        "dist/notadd/ngx-xlsx"
+      ],
+      "@notadd/ngx-xlsx/*": [
+        "dist/notadd/ngx-xlsx/*"
+      ]
+    }
   }
 }
