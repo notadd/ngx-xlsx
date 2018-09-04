@@ -32,10 +32,10 @@ export class XLSXService {
 
   /**
    * export Excel
-   * @param {Array<any>} json
-   * @param {string} excelFileName
-   * @param {Array<string>} headers
-   * @param {Array<string>} sheetNames
+   * @param json
+   * @param excelFileName
+   * @param headers
+   * @param sheetNames
    */
   public exportAsExcelFile(json: Array<any>, excelFileName: string, headers: Array<string> = null, sheetNames: Array<string> = null): void {
     /* excelFileName is required */

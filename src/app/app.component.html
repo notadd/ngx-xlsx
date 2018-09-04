@@ -1,4 +1,4 @@
-<table class="tftable" border="1">
+<table class="tftable black" border="1">
   <tr><th>Header 1</th><th>Header 2</th><th>Header 3</th><th>Header 4</th><th>Header 5</th><th>Header 6</th><th>Header 7</th><th>Header 8</th><th>Header 9</th><th>Header 10</th></tr>
   <tr *ngFor="let item of sheet">
     <td>{{item.Header1}}</td>
@@ -14,6 +14,23 @@
   </tr>
 </table>
 
-<button (click)="exportAsXLSX()">
-  click export Excel
+<button (click)="exportAsXLSXSingle()">
+  click single export Excel
+</button>
+
+<div class="tablse">
+  <table *ngFor="let sheet of sheets; let idx = index;" class="tftable" [ngClass]="{'black': idx == 0, 'orange': idx == 1, 'green': idx == 2}" border="1">
+    <tr><th>Header 1</th><th>Header 2</th><th>Header 3</th><th>Header 4</th><th>Header 5</th></tr>
+    <tr *ngFor="let item of sheets[idx]">
+      <td>{{item.Header1}}</td>
+      <td>{{item.Header2}}</td>
+      <td>{{item.Header3}}</td>
+      <td>{{item.Header4}}</td>
+      <td>{{item.Header5}}</td>
+    </tr>
+  </table>
+</div>
+
+<button (click)="exportAsXLSXMultiple()">
+  click multiple export Excel
 </button>

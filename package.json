@@ -5,6 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build @notadd/ngx-xlsx",
+    "build:lib:prod": "ng build --prod @notadd/ngx-xlsx",
+    "publish:lib": "cd dist/notadd/ngx-xlsx && npm publish --access public",
+    "deploy": "ng build --prod --base-href /ngx-xlsx/ && angular-cli-ghpages --dir ./dist/ngx-xlsx/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -34,6 +38,7 @@
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
+    "angular-cli-ghpages": "^0.5.3",
     "codelyzer": "~4.2.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

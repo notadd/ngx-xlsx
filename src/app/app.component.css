@@ -3,6 +3,30 @@
 .tftable tr {background-color:#2f2f2f;}
 .tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #686767;}
 .tftable tr:hover {background-color:#171515;}
+
+.black {color:#fbfbfb;border-color: #686767;}
+.black th {background-color:#171515;border-color: #686767;}
+.black tr {background-color:#2f2f2f;}
+.black td {border-color: #686767;}
+.black tr:hover {background-color:#171515;}
+
+.orange {color:#333333;border-color: #ebab3a;}
+.orange th {background-color:#e6983b;border-color: #ebab3a;}
+.orange tr {background-color:#f0c169;}
+.orange td {border-color: #ebab3a;}
+.orange tr:hover {background-color:#ffffff;}
+
+.green {color:#333333;border-color: #9dcc7a;}
+.green th {background-color:#abd28e;border-color: #9dcc7a;}
+.green tr {background-color:#bedda7;}
+.green td {border-color: #9dcc7a;}
+.green tr:hover {background-color:#ffffff;}
+
+.tablse{
+  margin-top: 85px;
+  display: flex;
+  justify-content: space-between;
+}
 button{
   border: 1px solid #171515;
   padding: 15px 30px;
