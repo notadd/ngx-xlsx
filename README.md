@@ -32,9 +32,9 @@
 
 #### step-3
 
-+ 在你的component中引入 `XLSXService`
++ 在你的component中引入 `NgxXLSXService`
 ```typescript
-  import { XLSXService } from '@notadd/ngx-xlsx';
+  import { NgxXLSXService } from '@notadd/ngx-xlsx';
 ```
 
 #### step-4

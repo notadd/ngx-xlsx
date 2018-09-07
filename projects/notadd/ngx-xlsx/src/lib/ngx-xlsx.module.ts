@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { XLSXService } from './ngx-xlsx.service';
+import { NgxXLSXService } from './ngx-xlsx.service';
 
 @NgModule({
-  providers: [ XLSXService ]
+  providers: [ NgxXLSXService ]
 })
-export class NgxXLXSModule { }
+export class NgxXLSXModule { }

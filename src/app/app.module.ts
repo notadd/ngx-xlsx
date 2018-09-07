@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { NgxXLXSModule } from '../../projects/notadd/ngx-xlsx/src/public_api';
+import { NgxXLSXModule } from '../../projects/notadd/ngx-xlsx/src/public_api';
 
 import { AppComponent } from './app.component';
 
@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    NgxXLXSModule
+    NgxXLSXModule
   ],
   providers: [],
   bootstrap: [AppComponent]

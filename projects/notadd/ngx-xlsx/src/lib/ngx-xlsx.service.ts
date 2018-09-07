@@ -4,7 +4,7 @@ import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
 @Injectable()
-export class XLSXService {
+export class NgxXLSXService {
 
   private excelType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   private excelExtension = '.xlsx';

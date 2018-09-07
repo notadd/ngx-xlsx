@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { XLSXService } from '../../projects/notadd/ngx-xlsx/src/public_api';
+import { NgxXLSXService } from '../../projects/notadd/ngx-xlsx/src/public_api';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ export class AppComponent {
   sheetsHeaders: Array<string>;
   sheetsNames: Array<string>;
 
-  constructor(private xlsxService: XLSXService) {
+  constructor(private xlsxService: NgxXLSXService) {
     this.sheets = [];
     for (let j = 0; j < 3; j++) {
       this.sheets[j] = [];
