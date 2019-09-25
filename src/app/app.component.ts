@@ -11,6 +11,8 @@ export class AppComponent {
   sheet: Array<any>;
   sheetHeaders: Array<string>;
   sheetNames: Array<string>;
+  sheetMerges: Array<string | Array<string>>;
+  sheetMergeHeaders: Array<string>;
 
   sheets: Array<any>;
   sheetsHeaders: Array<string>;
@@ -49,6 +51,11 @@ export class AppComponent {
 
     this.sheetHeaders =  ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
     this.sheetNames =  ['工作表一'];
+    this.sheetMerges = ['A1:B1'];
+    /* this is equivalent */
+    /* this.sheetMerges = [['0,0', '0,1']]; */
+
+    this.sheetMergeHeaders =  ['一和二', '', '三', '四', '五', '六', '七', '八', '九', '十'];
 
     this.sheetsHeaders =  ['一', '二', '三', '四', '五'];
     this.sheetsNames =  ['工作表一', '工作表二', '工作表三'];
@@ -60,5 +67,9 @@ export class AppComponent {
 
   exportAsXLSXMultiple(): void {
     this.xlsxService.exportAsExcelFile(this.sheets, 'excel_multiple', this.sheetsHeaders, this.sheetsNames);
+  }
+
+  exportAsXLSXMerge(): void {
+    this.xlsxService.exportAsExcelFile(this.sheet, 'excel_single', this.sheetMergeHeaders, this.sheetNames, this.sheetMerges);
   }
 }

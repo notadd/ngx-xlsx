@@ -22,10 +22,16 @@
 .green td {border-color: #9dcc7a;}
 .green tr:hover {background-color:#ffffff;}
 
-.tablse{
-  margin-top: 85px;
+.tables{
+  margin-top: 80px;
   display: flex;
   justify-content: space-between;
+}
+table {
+  margin-top: 80px;
+}
+table:first-child, .tables table {
+  margin-top: 0;
 }
 button{
   border: 1px solid #171515;
