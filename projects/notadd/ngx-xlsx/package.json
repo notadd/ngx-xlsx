@@ -1,10 +1,11 @@
 {
   "name": "@notadd/ngx-xlsx",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "peerDependencies": {
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0",
-    "xlsx": "^0.13.5 || ^0.14.0"
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
+    "xlsx": "^0.15.1",
+    "file-saver": "^2.0.2"
   },
   "repository": {
     "type": "git",
@@ -15,6 +16,8 @@
     "angular4",
     "angular5",
     "angular6",
+    "angular7",
+    "angular8",
     "excel",
     "export excel",
     "angular xlsx",
