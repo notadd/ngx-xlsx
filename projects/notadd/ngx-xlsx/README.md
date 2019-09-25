@@ -52,8 +52,9 @@
      * @param {string} excelFileName
      * @param {Array<string>} headers
      * @param {Array<string>} sheetNames
+     * @param {Array<string | Array<string>>} merges
      */
-    public exportAsExcelFile(json: Array<any>, excelFileName: string, headers: Array<string> = null, sheetNames: Array<string> = null): void {
+    public exportAsExcelFile(json: Array<any>, excelFileName: string, headers: Array<string> = [], sheetNames: Array<string> = [], merges: Array<string | Array<string>> = []): void {
       ...
     }
 ```
@@ -63,5 +64,6 @@
 |:-------------|:--------|:--------|:------|:---------------------------------------------------------------------------------------------------------------------------------------|
 | json          | any[]    | 必填     |        | 需要导出的数据json    多个工作表导出时数据为二维数组：`[[工作表1],[工作表2],[工作表三]]`    单个工作表导出时数据为一维数组：`[工作表1]` |
 | excelFileName | string   | 必填     |        | 导出的文件名前缀，后面会追加时间戳                                                                                                      |
-| headers       | string[] | 非必填   | null   | 表头，不填时默认为json数组对象的Object.keys    长度必须与json数组对象的Object.keys长度相等                                              |
-| sheetNames    | string[] | 非必填   | null   | Excel工作表名称，不填时默认为'sheet'+索引(从1开始)   多个工作表导出时长度必须与json数组长度相等   单个工作表导出时长度必须等于1         |
+| headers       | string[] | 非必填   | []   | 表头，不填时默认为json数组对象的Object.keys,    长度必须与json数组对象的Object.keys长度相等                                              |
+| sheetNames    | string[] | 非必填   | []   | Excel工作表名称，不填时默认为'sheet'+索引(从1开始)   多个工作表导出时长度必须与json数组长度相等   单个工作表导出时长度必须等于1         |
+| merges        | string[] or string[][] | 非必填   | []  |  需要合并单元格的数组，`['A1:B1']` 和 `[['0,0', '0,1']]` 等效，两种写法都支持      |
