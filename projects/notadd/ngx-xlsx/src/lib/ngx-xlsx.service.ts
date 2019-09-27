@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, Observer } from 'rxjs';
 
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
@@ -13,6 +14,18 @@ export interface Merge {
     r: number;
     c: number
   };
+}
+
+export interface ExportOptions {
+  fileName?: string;
+  headers?: Array<string | Array<string>>;
+  sheetNames?: Array<string>;
+  merges?: Array<string | Array<string>>;
+}
+
+export interface ImportOptions {
+  headerRows?: number;
+  headerKeys?: Array<string | Array<string>>;
 }
 
 @Injectable()
@@ -35,7 +48,7 @@ export class NgxXLSXService {
       type: this.excelType
     });
 
-    FileSaver.saveAs(data, fileName + '_' + new Date().getTime() + this.excelExtension);
+    FileSaver.saveAs(data, fileName + this.excelExtension);
   }
 
   private numberToChart(i: number): string {
@@ -82,24 +95,15 @@ export class NgxXLSXService {
     return worksheet;
   }
 
-  /**
-   * export Excel
-   * @param json
-   * @param excelFileName
-   * @param headers
-   * @param sheetNames
-   * @param merges
-   */
-  public exportAsExcelFile(
-    json: Array<any>,
-    excelFileName: string,
-    headers: Array<string> = [],
-    sheetNames: Array<string> = [],
-    merges: Array<string | Array<string>> = []
-  ): void {
+  public exportAsExcelFile(json: Array<any>, {
+    fileName = `${new Date().getTime()}`,
+    headers = [],
+    sheetNames = [],
+    merges = []
+  }: ExportOptions = {}): void {
     /* excelFileName is required */
-    if (!excelFileName) {
-      throw new Error('ngx-xlsx: Parameter "excelFileName" is required');
+    if (!fileName) {
+      throw new Error('ngx-xlsx: Parameter "fileName" is required');
     }
 
     /* json is required */
@@ -109,7 +113,15 @@ export class NgxXLSXService {
 
     /* validate headers length */
     if (headers && headers.length) {
-      if (headers.length !== Object.keys(Array.isArray(json[0]) ? json[0][0] : json[0]).length) {
+      if (Array.isArray(headers[0])) {
+        headers.map((_, index) => {
+          console.log(headers[index].length)
+          console.log(Object.keys(json[index][0]).length)
+          if (headers[index].length !== Object.keys(json[index][0]).length) {
+            throw new Error('ngx-xlsx: Parameter "headers" length mismatch');
+          }
+        });
+      } else if (headers.length !== Object.keys(Array.isArray(json[0]) ? json[0][0] : json[0]).length) {
         throw new Error('ngx-xlsx: Parameter "headers" length mismatch');
       }
     }
@@ -130,15 +142,50 @@ export class NgxXLSXService {
       json.map((data, index) => {
         workbook.SheetNames.push(sheetNames ? sheetNames[index] : `sheet${index + 1}`);
 
-        workbook.Sheets[workbook.SheetNames[index]] = this.builtSheet(data, {headers, merges});
+        const sheetHeaders = (Array.isArray(headers[0]) ? headers[index] : headers) as Array<string>;
+        workbook.Sheets[workbook.SheetNames[index]] = this.builtSheet(data, {headers: sheetHeaders, merges});
       });
     } else {
       workbook.SheetNames.push(sheetNames ? sheetNames[0] : `sheet${0}`);
 
-      workbook.Sheets[workbook.SheetNames[0]] = this.builtSheet(json, {headers, merges});
+      workbook.Sheets[workbook.SheetNames[0]] = this.builtSheet(json, {headers: headers as Array<string>, merges});
     }
 
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });
-    this.saveAsExcelFile(excelBuffer, excelFileName);
+    this.saveAsExcelFile(excelBuffer, fileName);
+  }
+
+  public importForExcelFile(file: File, {headerRows = 1, headerKeys = []}: ImportOptions = {}): Observable<Array<any>> {
+    return new Observable<Array<any>>((observer: Observer<Array<any>>) => {
+      const result: Array<any> = [];
+      const reader: FileReader = new FileReader();
+      reader.onload = (event: any) => {
+        /* read workbook */
+        const bstr: string = event.target.result;
+        const workbook: XLSX.WorkBook = XLSX.read(bstr, {type: 'binary'});
+
+        /* grab first sheet */
+        workbook.SheetNames.map((sheetName, index) => {
+          const worksheet: XLSX.WorkSheet = workbook.Sheets[sheetName];
+          const header = (Array.isArray(headerKeys[0]) ? headerKeys[index] : headerKeys) as Array<string>;
+
+          const data: [] = <any>(XLSX.utils.sheet_to_json(worksheet, {
+            raw: true,
+            header: header.length ? header : void (0)
+          }));
+
+          result.push(header.length ? data.slice(headerRows, data.length) : data);
+        });
+
+        observer.next(result.length > 1 ? result : result[0]);
+        observer.complete();
+      };
+
+      reader.onerror = (error: any) => {
+        observer.error(error);
+      };
+
+      reader.readAsBinaryString(file);
+    });
   }
 }

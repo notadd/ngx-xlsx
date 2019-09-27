@@ -15,7 +15,7 @@ export class AppComponent {
   sheetMergeHeaders: Array<string>;
 
   sheets: Array<any>;
-  sheetsHeaders: Array<string>;
+  sheetsHeaders: Array<string | Array<string>>;
   sheetsNames: Array<string>;
 
   constructor(private xlsxService: NgxXLSXService) {
@@ -49,6 +49,8 @@ export class AppComponent {
       });
     }
 
+    console.log(this.sheet);
+
     this.sheetHeaders =  ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
     this.sheetNames =  ['工作表一'];
     this.sheetMerges = ['A1:B1'];
@@ -57,19 +59,40 @@ export class AppComponent {
 
     this.sheetMergeHeaders =  ['一和二', '', '三', '四', '五', '六', '七', '八', '九', '十'];
 
-    this.sheetsHeaders =  ['一', '二', '三', '四', '五'];
+    this.sheetsHeaders =  [['一', '二', '三', '四', '五'], ['1', '2', '3', '4', '5'], ['one', 'two', 'three', 'four', 'five']];
+    // this.sheetsHeaders =  ['one', 'two', 'three', 'four', 'five'];
     this.sheetsNames =  ['工作表一', '工作表二', '工作表三'];
   }
 
   exportAsXLSXSingle(): void {
-    this.xlsxService.exportAsExcelFile(this.sheet, 'excel_single', this.sheetHeaders, this.sheetNames);
+    this.xlsxService.exportAsExcelFile(this.sheet, {fileName: 'excel_single', headers: this.sheetHeaders, sheetNames: this.sheetNames});
   }
 
   exportAsXLSXMultiple(): void {
-    this.xlsxService.exportAsExcelFile(this.sheets, 'excel_multiple', this.sheetsHeaders, this.sheetsNames);
+    this.xlsxService.exportAsExcelFile(this.sheets, {
+      fileName: 'excel_multiple',
+      headers: this.sheetsHeaders,
+      sheetNames: this.sheetsNames
+    });
   }
 
   exportAsXLSXMerge(): void {
-    this.xlsxService.exportAsExcelFile(this.sheet, 'excel_single', this.sheetMergeHeaders, this.sheetNames, this.sheetMerges);
+    this.xlsxService.exportAsExcelFile(this.sheet, {
+      fileName: 'excel_single',
+      headers: this.sheetMergeHeaders,
+      sheetNames: this.sheetNames,
+      merges: this.sheetMerges
+    });
+  }
+
+  fileExcelUpload(event: any): void {
+    const target: DataTransfer = <DataTransfer>(event.target);
+    if (target.files.length !== 1) {
+      throw new Error('Cannot use multiple files');
+    }
+    const file: File = target.files[0];
+
+    this.xlsxService.importForExcelFile(file)
+      .subscribe(console.log);
   }
 }

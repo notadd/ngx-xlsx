@@ -15,7 +15,7 @@
 </table>
 
 <button (click)="exportAsXLSXSingle()">
-  click export Excel
+  Click export Excel
 </button>
 
 <div class="tables">
@@ -32,7 +32,7 @@
 </div>
 
 <button (click)="exportAsXLSXMultiple()">
-  click export Excel with multiple sheet
+  Click export Excel with multiple sheet
 </button>
 
 <table class="tftable black" border="1">
@@ -52,5 +52,12 @@
 </table>
 
 <button (click)="exportAsXLSXMerge()">
-  click export Excel with merge cells
+  Click export Excel with merge cells
 </button>
+
+<hr>
+
+<div class="file-group">
+  <button class="btn">Select a file for import</button>
+  <input type="file" (change)="fileExcelUpload($event)" multiple="false" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+</div>

@@ -1,6 +1,6 @@
 {
   "name": "@notadd/ngx-xlsx",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0 || ^7.0.0 || ^8.0.0",
@@ -19,7 +19,8 @@
     "angular7",
     "angular8",
     "excel",
-    "export excel",
+    "export Excel",
+    "import Excel",
     "angular xlsx",
     "angular"
   ],
