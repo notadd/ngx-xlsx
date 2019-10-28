@@ -52,16 +52,59 @@ export class NgxXLSXService {
   }
 
   private numberToChart(i: number): string {
-    return String.fromCharCode(65 + i);
+    let chartCode = '';
+    i = i + 1;
+
+    while (i > 26) {
+      let count = Number.parseInt(`${i / 26}`, 10);
+      let remainder = i % 26;
+      if (remainder === 0) {
+        remainder = 26;
+        count --;
+        chartCode = String.fromCharCode(64 + Number.parseInt(`${remainder}`, 10)) + chartCode;
+      } else {
+        chartCode = String.fromCharCode(64 + Number.parseInt(`${remainder}`, 10)) + chartCode;
+      }
+
+      i = count;
+    }
+
+    chartCode = String.fromCharCode(64 + Number.parseInt(`${i}`, 10)) + chartCode;
+
+    return chartCode;
+  }
+
+  private validationHeaders(headers: Array<string>, breakpoint: number): Array<string> {
+    const result = [];
+    for (let i = 0, length = headers.length; i < length; i += breakpoint) {
+      result.push(headers.slice(i, i + breakpoint));
+    }
+    result.map((_, index) => {
+      if (result[index].length !== breakpoint) {
+        throw new Error('ngx-xlsx: Parameter "headers" length mismatch');
+      }
+    });
+
+    return result;
   }
 
   private builtSheet(data: any, { headers, merges }: { headers?: Array<string>, merges?: Array<string | Array<string>> }): XLSX.WorkSheet {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const json: Array<any> = JSON.parse(JSON.stringify(data));
+
+    /* add headers rows */
+    headers.map(_ => {
+      json.unshift({});
+    });
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json, {skipHeader: true});
 
     /* custom header */
-    if (headers !== null || headers.length !== 0) {
-      for (let i = 0; i < headers.length; i++) {
-        worksheet[this.numberToChart((i)) + '1'] = { v: headers[i] };
+    if (headers && headers.length !== 0) {
+      if (Array.isArray(headers[0])) {
+        for (let i = 0; i < headers.length; i++) {
+          for (let j = 0; j < headers[i].length; j++) {
+            worksheet[this.numberToChart((j)) + (i + 1)] = { v: headers[i][j] };
+          }
+        }
       }
     }
 
@@ -101,6 +144,9 @@ export class NgxXLSXService {
     sheetNames = [],
     merges = []
   }: ExportOptions = {}): void {
+    /* slice headers by columns */
+    let validHeaders: Array<string> = [];
+
     /* excelFileName is required */
     if (!fileName) {
       throw new Error('ngx-xlsx: Parameter "fileName" is required');
@@ -115,14 +161,12 @@ export class NgxXLSXService {
     if (headers && headers.length) {
       if (Array.isArray(headers[0])) {
         headers.map((_, index) => {
-          console.log(headers[index].length)
-          console.log(Object.keys(json[index][0]).length)
-          if (headers[index].length !== Object.keys(json[index][0]).length) {
-            throw new Error('ngx-xlsx: Parameter "headers" length mismatch');
-          }
+          const columns = Object.keys(json[index][0]).length;
+          validHeaders = this.validationHeaders(headers[index] as Array<string>, columns);
         });
-      } else if (headers.length !== Object.keys(Array.isArray(json[0]) ? json[0][0] : json[0]).length) {
-        throw new Error('ngx-xlsx: Parameter "headers" length mismatch');
+      } else {
+        const columns = Object.keys(Array.isArray(json[0]) ? json[0][0] : json[0]).length;
+        validHeaders = this.validationHeaders(headers as Array<string>, columns);
       }
     }
 
@@ -140,15 +184,16 @@ export class NgxXLSXService {
     /* multi-sheet */
     if (Array.isArray(json[0])) {
       json.map((data, index) => {
-        workbook.SheetNames.push(sheetNames ? sheetNames[index] : `sheet${index + 1}`);
+        workbook.SheetNames.push(sheetNames && sheetNames.length ? sheetNames[index] : `Sheet${index + 1}`);
 
         const sheetHeaders = (Array.isArray(headers[0]) ? headers[index] : headers) as Array<string>;
-        workbook.Sheets[workbook.SheetNames[index]] = this.builtSheet(data, {headers: sheetHeaders, merges});
+        validHeaders = this.validationHeaders(sheetHeaders, Object.keys(data[0]).length);
+        workbook.Sheets[workbook.SheetNames[index]] = this.builtSheet(data, {headers: validHeaders, merges});
       });
     } else {
-      workbook.SheetNames.push(sheetNames ? sheetNames[0] : `sheet${0}`);
+      workbook.SheetNames.push(sheetNames && sheetNames.length ? sheetNames[0] : `Sheet${1}`);
 
-      workbook.Sheets[workbook.SheetNames[0]] = this.builtSheet(json, {headers: headers as Array<string>, merges});
+      workbook.Sheets[workbook.SheetNames[0]] = this.builtSheet(json, {headers: validHeaders, merges});
     }
 
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' });

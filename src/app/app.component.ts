@@ -45,19 +45,39 @@ export class AppComponent {
         Header7: `Row:${i + 1} Cell:7`,
         Header8: `Row:${i + 1} Cell:8`,
         Header9: `Row:${i + 1} Cell:9`,
-        Header10: `Row:${i + 1} Cell:10`
+        Header10: `Row:${i + 1} Cell:10`,
+        Header11: `Row:${i + 1} Cell:11`,
+        Header12: `Row:${i + 1} Cell:12`,
+        Header13: `Row:${i + 1} Cell:13`,
+        Header14: `Row:${i + 1} Cell:14`,
+        Header15: `Row:${i + 1} Cell:25`,
+        Header16: `Row:${i + 1} Cell:66`,
+        Header17: `Row:${i + 1} Cell:17`,
+        Header18: `Row:${i + 1} Cell:88`,
+        Header19: `Row:${i + 1} Cell:99`,
+        Header20: `Row:${i + 1} Cell:20`,
+        Header21: `Row:${i + 1} Cell:21`,
+        Header22: `Row:${i + 1} Cell:22`,
+        Header23: `Row:${i + 1} Cell:23`,
+        Header24: `Row:${i + 1} Cell:24`,
+        Header25: `Row:${i + 1} Cell:25`,
+        Header26: `Row:${i + 1} Cell:26`,
+        Header27: `Row:${i + 1} Cell:27`,
+        Header28: `Row:${i + 1} Cell:28`,
+        Header29: `Row:${i + 1} Cell:29`,
+        Header30: `Row:${i + 1} Cell:30`
       });
     }
 
     console.log(this.sheet);
 
-    this.sheetHeaders =  ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+    this.sheetHeaders =  ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
     this.sheetNames =  ['工作表一'];
-    this.sheetMerges = ['A1:B1'];
+
+    this.sheetMerges = ['A1:B2', 'A3:A5'];
     /* this is equivalent */
     /* this.sheetMerges = [['0,0', '0,1']]; */
-
-    this.sheetMergeHeaders =  ['一和二', '', '三', '四', '五', '六', '七', '八', '九', '十'];
+    this.sheetMergeHeaders =  ['一和二', '', '三', '四', '五', '六', '七', '八', '九', '十', '', '', '三', '四', '五', '六', '七', '八', '九', '十'];
 
     this.sheetsHeaders =  [['一', '二', '三', '四', '五'], ['1', '2', '3', '4', '5'], ['one', 'two', 'three', 'four', 'five']];
     // this.sheetsHeaders =  ['one', 'two', 'three', 'four', 'five'];
